@@ -13,7 +13,7 @@ class App extends Component {
         <Router>
           <div className="App">
             <AppNavbar />
-            <div className="container">
+            <div className="container mt-2">
               <Switch>
                 <Route exact path="/" component={Dashboard} />
               </Switch>
