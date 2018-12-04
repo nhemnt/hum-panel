@@ -1,8 +1,25 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types'
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firebaseConnect } from 'react-redux-firebase';
 
 class AppNavbar extends Component { 
+    state = {
+        isAuthenticated: false
+    }
+    static getDerivedStateFromProps(porps, state) { 
+        const { auth } = this.props;
+
+        if (auth.id) {
+            return { isAuthenticated: true }
+        } else { 
+            return { isAuthenticated: false }
+        }
+    }
     render() { 
+        const { isAuthenticated } = this.state;
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container">
@@ -20,11 +37,14 @@ class AppNavbar extends Component {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav mr-auto">
-                            <li className="nav-item">
-                                <Link to="/"  className="nav-link">
-                                    Dashboard
-                                </Link>
-                            </li>
+                            { isAuthenticated ? (
+                                <li className="nav-item">
+                                    <Link to="/"  className="nav-link">
+                                        Dashboard
+                                    </Link>
+                                </li>
+                            ) : null
+                            }
                         </ul>
                         <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
@@ -44,4 +64,14 @@ class AppNavbar extends Component {
     }
 }
 
-export default AppNavbar;
+AppNavbar.propTypes = {
+    firebase: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired
+}
+
+export default compose(
+    firebaseConnect(),
+    connect((state, props) => { 
+        auth: state.firebase.auth
+    })
+)(AppNavbar);
