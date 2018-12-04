@@ -12,11 +12,11 @@ class Login extends Component {
     onSubmit = e => { 
         e.preventDefault();
         const { firebase } = this.props;
-        // const { email, password } = this.state;
+        const { email, password } = this.state;
         firebase.login({
             email,
             password
-        })
+        }).catch(err => console.log('invalid login credentials'));
     }
 
     onChange = e => this.setState({ [e.target.name]: e.target.value})
@@ -43,12 +43,13 @@ class Login extends Component {
                                         value={this.state.email}
                                         onChange={this.onChange}
                                     />
-                                </div><div className="form-group">
+                                </div>
+                                <div className="form-group">
                                     <label htmlFor="password">Password</label>
                                     <input
                                         type="password"
                                         className="form-control"
-                                        name="email"
+                                        name="password"
                                         required
                                         value={this.state.password}
                                         onChange={this.onChange}
