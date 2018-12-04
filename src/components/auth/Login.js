@@ -10,7 +10,13 @@ class Login extends Component {
         password: ''
     }
     onSubmit = e => { 
-        const { email, password } = this.state;
+        e.preventDefault();
+        const { firebase } = this.props;
+        // const { email, password } = this.state;
+        firebase.login({
+            email,
+            password
+        })
     }
 
     onChange = e => this.setState({ [e.target.name]: e.target.value})
