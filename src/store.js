@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import 'firebase/firestore';
 import { reactReduxFirebase, firebaseReducer } from 'react-redux-firebase';
 import { reduxFirestore, firestoreReducer } from 'redux-firestore';
+import {composeWithDevTools} from 'redux-devtools-extension/developmentOnly'
 
 //reducer
 import notifyReducer from './reducers/notifyReducer'
@@ -58,9 +59,8 @@ if (localStorage.getItem('settings') == null) {
 const intialState = {settings: JSON.parse(localStorage.getItem('settings'))};
 
 //create store
-const store = createStoreWithFirebase(rootReducer, intialState, compose(
-reactReduxFirebase(firebase),
-window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() 
+const store = createStoreWithFirebase(rootReducer, intialState, composeWithDevTools(
+reactReduxFirebase(firebase)
 ))
 
 export default store;
