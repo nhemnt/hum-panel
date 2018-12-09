@@ -19,13 +19,14 @@ class AppNavbar extends Component {
         }
     }
     onLogoutClick = e => { 
-        e.preventDefault();
-        const { firebase } = this.props;
-        firebase.logout();
+        e.preventDefault()
+        const { firebase } = this.props
+        firebase.logout()
     }
     render() { 
-        const { isAuthenticated } = this.state;
-        const { auth } = this.props;
+        const { isAuthenticated } = this.state
+        const { auth } = this.props
+        const { allowRegistration } = this.props.settings
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container">
@@ -63,22 +64,30 @@ class AppNavbar extends Component {
                             <a className="nav-link" href="https://www.behance.net/nhemnt">Portfolio</a>
                         </li>    
                         </ul>
-                        { isAuthenticated ? (
-                            <ul  className="navbar-nav ml-auto">
+                        {isAuthenticated ? (
+                            <ul className="navbar-nav ml-auto">
                                 <li className="nav-item">
                                     <a href="!#" className="nav-link">{auth.email}</a>
                                 </li>
                                 <li className="nav-item">
-                                    <Link to="/settings"  className="nav-link">
+                                    <Link to="/settings" className="nav-link">
                                         Settings
                                     </Link>
                                 </li>
                                 <li className="nav-item">
                                     <a href="!#" className="nav-link" onClick={this.onLogoutClick}>Logout</a>
-                                </li>        
+                                </li>
                             </ul>
-                        ) : null
-                        }
+                        ) : null}
+                        {allowRegistration && !isAuthenticated ? (
+                            <ul  className="navbar-nav ml-auto">
+                                <li className="nav-item">
+                                    <Link to="/settings"  className="nav-link">
+                                        Sign Up
+                                    </Link>
+                                </li>
+                            </ul>
+                        ):null}
                     </div>
                 </div>
             </nav>
